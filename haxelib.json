@@ -1,9 +1,20 @@
 {
 	"name": "hldiscord_rpc",
 	"license": "MIT",
+	"version": "1.0.0",
+
+	"classPath": "haxe",
+	"description": "Haxe/HL wrapper of the Discord-RPC library",
+
 	"releasenote": "",
 	"contributors": [
 		"D-electra"
 	],
-	"version": "1.0.0"
+	"tags": [
+		"hl",
+		"discord",
+		"haxe",
+		"rpc"
+	],
+	"url": "https://github.com/D-electra/hldiscord_rpc"
 }
