@@ -34,4 +34,4 @@ instance       | hl.UI8     | _Deprecated field_
 ## TO DO
 - [x] documentation
 - [ ] buttons
-- [ ] fix presence content displaying
+- [ ] fix event handlers
