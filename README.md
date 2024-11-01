@@ -4,6 +4,8 @@ Haxe/HL wrapper of the Discord-RPC library
 
 ## Important Notice
 
+#### For some reason it just stopped working, I'm already solving this problem and would welcome any help!
+
 The library uses UTF8 `hl.Bytes`, make sure you convert strings correctly
 
 ## Features
