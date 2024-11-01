@@ -5,6 +5,7 @@ Haxe/HL wrapper of the Discord-RPC library
 ## Important Notice
 
 #### For some reason it just stopped working, I'm already solving this problem and would welcome any help!
+Note: the problem solved... itself?
 
 The library uses UTF8 `hl.Bytes`, make sure you convert strings correctly
 
@@ -33,3 +34,4 @@ instance       | hl.UI8     | _Deprecated field_
 ## TO DO
 - [x] documentation
 - [ ] buttons
+- [ ] fix presence content displaying
