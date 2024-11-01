@@ -1,0 +1,11 @@
+# Visual Studio project
+/.vs
+/discord_rpc
+/x64
+/discord_rpc.vcxproj.user
+
+# Visual Studio Code project
+/.vscode 
+
+# Testing
+/test
