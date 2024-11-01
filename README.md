@@ -8,7 +8,7 @@ The library uses UTF8 `hl.Bytes`, make sure you convert strings correctly
 
 ## Features
 
-The so-called Rich Presence contains the following fields for you to fill in:
+The so-called rich presence contains the following fields for you to fill in:
 
 Name           | Type       | Description
 -------------- | ---------- | ---------------------------------------------------------------------------------------------------
@@ -16,18 +16,18 @@ state          | hl.Bytes   | The general state the current play-session is in (
 details        | hl.Bytes   | Details to the current play-session, like the location, or current score
 startTimestamp | haxe.Int64 | Play-session start time (in seconds)
 endTimestamp   | haxe.Int64 | Play-session end time (in seconds)
-largeImageKey  | hl.Bytes   | ...
-largeImageText | hl.Bytes   | ...
-smallImageKey  | hl.Bytes   | ...
-smallImageText | hl.Bytes   | ...
-partyId        | hl.Bytes   | ...
-partySize      | Int        | ...
-partyMax       | Int        | ...
-matchSecret    | hl.Bytes   | ...
-joinSecret     | hl.Bytes   | ...
-spectateSecret | hl.Bytes   | ...
-instance       | hl.UI8     | ...
+largeImageKey  | hl.Bytes   | Large image asset key
+largeImageText | hl.Bytes   | Text displayed when hovering over a large image
+smallImageKey  | hl.Bytes   | Small image asset key
+smallImageText | hl.Bytes   | Text displayed when hovering over a small image
+partyId        | hl.Bytes   | In-game party ID
+partySize      | Int        | Number of people in the party
+partyMax       | Int        | Max number of peoply in the party
+matchSecret    | hl.Bytes   | _Deprecated field_
+joinSecret     | hl.Bytes   | Code for other players to join the party
+spectateSecret | hl.Bytes   | Code for other players to spectate the game
+instance       | hl.UI8     | _Deprecated field_
 
 ## TO DO
-- [ ] finish the README
+- [x] documentation
 - [ ] buttons
