@@ -34,7 +34,9 @@ typedef struct {
 	vclosure* joinRequest;
 } vhandlers;
 
-vhandlers* current_handlers;
+bool initialized = false;
+
+vhandlers* current_handlers = nullptr;
 DiscordEventHandlers* set_handlers(vhandlers* handlers) {
 	if (current_handlers != nullptr) {
 		hl_remove_root(current_handlers->ready);
@@ -45,16 +47,20 @@ DiscordEventHandlers* set_handlers(vhandlers* handlers) {
 		hl_remove_root(current_handlers->joinRequest);
 	}
 	current_handlers = handlers;
-	hl_add_root(handlers->ready);
-	hl_add_root(handlers->disconnected);
-	hl_add_root(handlers->errored);
-	hl_add_root(handlers->joinGame);
-	hl_add_root(handlers->spectateGame);
-	hl_add_root(handlers->joinRequest);
+	hl_add_root(current_handlers->ready);
+	hl_add_root(current_handlers->disconnected);
+	hl_add_root(current_handlers->errored);
+	hl_add_root(current_handlers->joinGame);
+	hl_add_root(current_handlers->spectateGame);
+	hl_add_root(current_handlers->joinRequest);
 
-	DiscordEventHandlers out{};
+	DiscordEventHandlers out;
+	memset(&out, 0, sizeof(out));
 
 	out.ready = [](const DiscordUser* request) {
+		initialized = true;
+		printf("Discord-RPC Initialized\n");
+
 		vdynamic args[4];
 		vdynamic* vargs[4] = { &args[0], &args[1], &args[2], &args[3] };
 		args[0].t = &hlt_bytes;
@@ -113,12 +119,20 @@ DiscordEventHandlers* set_handlers(vhandlers* handlers) {
 		hl_dyn_call(current_handlers->joinRequest, vargs, 4);
 	};
 
+	/*DiscordUser user{};
+	user.userId = "123";
+	user.username = "TEST BUDDY";
+	user.discriminator = "bud.dy";
+	user.avatar = "icon";
+	out.ready(&user);*/
+
 	return &out;
 }
 
 DiscordRichPresence* wrap_presence(vpresence* presence) {
 	vpresence in = *presence;
-	DiscordRichPresence out{};
+	DiscordRichPresence out;
+	memset(&out, 0, sizeof(out));
 
 	out.state = (const char*)in.state;
 	out.details = (const char*)in.details;
@@ -140,15 +154,17 @@ DiscordRichPresence* wrap_presence(vpresence* presence) {
 }
 
 HL_PRIM void HL_NAME(initialize)(vbyte* applicationId, vhandlers* handlers, int autoRegister, vbyte* optionalSteamId) {
-	Discord_Initialize((const char*)applicationId, set_handlers(handlers), autoRegister, (const char*)optionalSteamId);
+	DiscordEventHandlers* _handlers = set_handlers(handlers);
+	Discord_Initialize((const char*)applicationId, _handlers, autoRegister, (const char*)optionalSteamId);
 }
 
 HL_PRIM void HL_NAME(shutdown)() {
+	initialized = false;
 	Discord_Shutdown();
 }
 
 HL_PRIM void HL_NAME(run_callbacks)() {
-	Discord_RunCallbacks();
+	if (initialized) Discord_RunCallbacks();
 }
 
 HL_PRIM void HL_NAME(update_presence)(vpresence* presence) {
@@ -164,6 +180,6 @@ HL_PRIM void HL_NAME(respond)(vbyte* userid, int reply) {
 }
 
 HL_PRIM void HL_NAME(update_handlers)(vhandlers* handlers) {
-	// set_handlers(handlers);
-	Discord_UpdateHandlers(set_handlers(handlers));
+	DiscordEventHandlers* _handlers = set_handlers(handlers);
+	Discord_UpdateHandlers(_handlers);
 }
